@@ -36,10 +36,43 @@ docker compose down -v
 ```
 
 ## API
-- POST `/users` — создание user
+- POST `/users` — создание пользователя
 - POST `/users/login` — логин (ответ содержит `token`)
-- GET `/users/:username` — информация о пользователе(Authorization: `Bearer <token>`)
+- GET `/users/:username` — информация о пользователе (Authorization: `Bearer <token>`)
 - POST `/users/:username` — обновление пользователя (можно обновлять только себя) (Authorization: `Bearer <token>`)
+
+### Примеры запросов (body)
+
+Create user:
+```json
+{
+	"username": "someuser",
+	"fullname": "Some Name",
+	"sex": "M",
+	"age": 25,
+	"email": "example@example.com",
+	"phone": "+1234567890",
+	"password": "secret"
+}
+```
+
+Login:
+```json
+{
+	"username": "someuser",
+	"password": "secret"
+}
+```
+
+Update (любой поднабор полей):
+```json
+{
+	"fullname": "John Updated",
+	"email": "john2@example.com",
+	"phone": "+1234567899",
+	"sex": "M"
+}
+```
 
 
 ## HTTPS (опционально)
