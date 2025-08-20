@@ -17,7 +17,7 @@ make migrateup
 ```sh
 go run ./cmd/server
 ```
-По умолчанию конфиг берётся из `config/app.env`. Порт: `0.0.0.0:8080`.
+По умолчанию конфиг берётся из `config/app.env`. Сервер-api хостится на `0.0.0.0:8080`.
 
 ## Что, где?
 - `db/` — логика Postgres: миграции, SQL-запросы (`db/query`), сгенерированный код sqlc (`db/sqlc`).
@@ -34,6 +34,13 @@ docker compose up --build
 ```sh
 docker compose down -v
 ```
+
+## API
+- POST `/users` — создание user
+- POST `/users/login` — логин (ответ содержит `token`)
+- GET `/users/:username` — информация о пользователе(Authorization: `Bearer <token>`)
+- POST `/users/:username` — обновление пользователя (можно обновлять только себя) (Authorization: `Bearer <token>`)
+
 
 ## HTTPS (опционально)
 1) Сгенерировать самоподписанные сертификаты:
