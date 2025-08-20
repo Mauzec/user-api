@@ -24,7 +24,7 @@ func randomUser() db.User {
 		ID:       util.RandomInt(1, 10000),
 		Username: util.RandomString(8),
 		FullName: util.RandomString(10),
-		Sex:      "M",
+		Gender:   "M",
 		Age:      int32(util.RandomInt(18, 60)),
 		Phone:    util.RandomPhone(),
 		Email:    util.RandomEmail(),

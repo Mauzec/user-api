@@ -16,7 +16,7 @@ import (
 type createUserRequest struct {
 	Username string `json:"username" binding:"required,min=3,max=32,alphanum"`
 	Fullname string `json:"fullname" binding:"required,min=3,max=64"`
-	Sex      string `json:"sex" binding:"required,sex"`
+	Gender   string `json:"gender" binding:"required,gender"`
 	Age      int32  `json:"age" binding:"required,min=18,max=60"`
 	Email    string `json:"email" binding:"required,email"`
 	Phone    string `json:"phone" binding:"required,phone"`
@@ -27,7 +27,7 @@ type userResponse struct {
 	ID        int64     `json:"id"`
 	Username  string    `json:"username"`
 	FullName  string    `json:"fullname"`
-	Sex       string    `json:"sex"`
+	Gender    string    `json:"gender"`
 	Age       int32     `json:"age"`
 	Avatar    string    `json:"avatar"`
 	Status    string    `json:"status"`
@@ -41,7 +41,7 @@ func newUserResponse(user db.User) userResponse {
 		ID:        user.ID,
 		Username:  user.Username,
 		FullName:  user.FullName,
-		Sex:       user.Sex,
+		Gender:    user.Gender,
 		Age:       user.Age,
 		Avatar:    user.Avatar,
 		Status:    user.Status,
@@ -67,7 +67,7 @@ func (server *Server) createUser(ctx *gin.Context) {
 	user, err := server.store.CreateUser(ctx, db.CreateUserParams{
 		Username:       req.Username,
 		FullName:       req.Fullname,
-		Sex:            req.Sex,
+		Gender:         req.Gender,
 		Age:            req.Age,
 		Email:          req.Email,
 		Phone:          req.Phone,
@@ -184,7 +184,7 @@ type updateUserRequest struct {
 	Fullname *string `json:"fullname" binding:"omitempty,min=3,max=64"`
 	Email    *string `json:"email" binding:"omitempty,email"`
 	Phone    *string `json:"phone" binding:"omitempty,phone"`
-	Sex      *string `json:"sex" binding:"omitempty,sex"`
+	Gender   *string `json:"gender" binding:"omitempty,gender"`
 }
 
 func (server *Server) updateUser(ctx *gin.Context) {
@@ -200,7 +200,7 @@ func (server *Server) updateUser(ctx *gin.Context) {
 		return
 	}
 
-	if req.Fullname == nil && req.Email == nil && req.Phone == nil && req.Sex == nil {
+	if req.Fullname == nil && req.Email == nil && req.Phone == nil && req.Gender == nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(errors.New("at least one field must be provided")))
 		return
 	}
@@ -235,7 +235,7 @@ func (server *Server) updateUser(ctx *gin.Context) {
 		ID:       user.ID,
 		Phone:    user.Phone,
 		FullName: user.FullName,
-		Sex:      user.Sex,
+		Gender:   user.Gender,
 		Email:    user.Email,
 	}
 	if req.Fullname != nil {
@@ -247,8 +247,8 @@ func (server *Server) updateUser(ctx *gin.Context) {
 	if req.Phone != nil {
 		args.Phone = *req.Phone
 	}
-	if req.Sex != nil {
-		args.Sex = *req.Sex
+	if req.Gender != nil {
+		args.Gender = *req.Gender
 	}
 
 	updated, err := server.store.UpdateUser(ctx, args)

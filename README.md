@@ -48,7 +48,7 @@ Create user:
 {
 	"username": "someuser",
 	"fullname": "Some Name",
-	"sex": "M",
+	"gender": "M",
 	"age": 25,
 	"email": "example@example.com",
 	"phone": "+1234567890",
@@ -70,7 +70,7 @@ Update (любой поднабор полей):
 	"fullname": "John Updated",
 	"email": "john2@example.com",
 	"phone": "+1234567899",
-	"sex": "M"
+	"gender": "M"
 }
 ```
 

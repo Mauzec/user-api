@@ -2,7 +2,7 @@
 INSERT INTO users (
     username,
     full_name,
-    sex,
+    gender,
     age,
     email,
     phone,
@@ -28,7 +28,7 @@ FOR NO KEY UPDATE;
 UPDATE users
 SET phone = $2,
     full_name = $3,
-    sex = $4,
+    gender = $4,
     email = $5
 WHERE id = $1
 RETURNING *;

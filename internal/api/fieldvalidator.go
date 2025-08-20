@@ -11,9 +11,9 @@ func validPhone(fl validator.FieldLevel) bool {
 	}
 	return false
 }
-func validSex(fl validator.FieldLevel) bool {
-	if sex, ok := fl.Field().Interface().(string); ok {
-		return sex == "M" || sex == "F"
+func validGender(fl validator.FieldLevel) bool {
+	if gender, ok := fl.Field().Interface().(string); ok {
+		return gender == "M" || gender == "F"
 	}
 	return false
 }

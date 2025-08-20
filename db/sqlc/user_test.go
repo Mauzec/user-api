@@ -23,7 +23,7 @@ func createAndTestRandomUser(t *testing.T) User {
 		HashedPassword: hashedPassword,
 		FullName:       fmt.Sprintf("%s %s", util.RandomString(5), util.RandomString(5)),
 		Phone:          util.RandomPhone(),
-		Sex:            "M",
+		Gender:         "M",
 		Age:            int32(util.RandomInt(18, 60)),
 	}
 
@@ -102,7 +102,7 @@ func TestUpdateUser(t *testing.T) {
 			ID:       user.ID,
 			Email:    "t@t.com",
 			FullName: "Ka Ma",
-			Sex:      "M",
+			Gender:   "M",
 			Phone:    "+123413424",
 		}
 

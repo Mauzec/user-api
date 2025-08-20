@@ -3,7 +3,7 @@ CREATE TABLE "users" (
     
     "username" varchar NOT NULL,
     "full_name" varchar NOT NULL,
-    "sex" varchar NOT NULL,
+    "gender" varchar NOT NULL,
     "age" int NOT NULL,
     "email" varchar NOT NULL,
     "phone" varchar NOT NULL,

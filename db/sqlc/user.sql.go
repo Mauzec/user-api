@@ -13,20 +13,20 @@ const createUser = `-- name: CreateUser :one
 INSERT INTO users (
     username,
     full_name,
-    sex,
+    gender,
     age,
     email,
     phone,
     hashed_password
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7
-) RETURNING id, username, full_name, sex, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at
+) RETURNING id, username, full_name, gender, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at
 `
 
 type CreateUserParams struct {
 	Username       string `json:"username"`
 	FullName       string `json:"full_name"`
-	Sex            string `json:"sex"`
+	Gender         string `json:"gender"`
 	Age            int32  `json:"age"`
 	Email          string `json:"email"`
 	Phone          string `json:"phone"`
@@ -37,7 +37,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	row := q.db.QueryRow(ctx, createUser,
 		arg.Username,
 		arg.FullName,
-		arg.Sex,
+		arg.Gender,
 		arg.Age,
 		arg.Email,
 		arg.Phone,
@@ -48,7 +48,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.ID,
 		&i.Username,
 		&i.FullName,
-		&i.Sex,
+		&i.Gender,
 		&i.Age,
 		&i.Email,
 		&i.Phone,
@@ -72,7 +72,7 @@ func (q *Queries) DeleteUserByID(ctx context.Context, id int64) error {
 }
 
 const getUserByID = `-- name: GetUserByID :one
-SELECT id, username, full_name, sex, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at FROM users
+SELECT id, username, full_name, gender, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at FROM users
 WHERE id = $1 LIMIT 1
 `
 
@@ -83,7 +83,7 @@ func (q *Queries) GetUserByID(ctx context.Context, id int64) (User, error) {
 		&i.ID,
 		&i.Username,
 		&i.FullName,
-		&i.Sex,
+		&i.Gender,
 		&i.Age,
 		&i.Email,
 		&i.Phone,
@@ -97,7 +97,7 @@ func (q *Queries) GetUserByID(ctx context.Context, id int64) (User, error) {
 }
 
 const getUserByUsername = `-- name: GetUserByUsername :one
-SELECT id, username, full_name, sex, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at FROM users
+SELECT id, username, full_name, gender, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at FROM users
 WHERE username = $1 LIMIT 1
 `
 
@@ -108,7 +108,7 @@ func (q *Queries) GetUserByUsername(ctx context.Context, username string) (User,
 		&i.ID,
 		&i.Username,
 		&i.FullName,
-		&i.Sex,
+		&i.Gender,
 		&i.Age,
 		&i.Email,
 		&i.Phone,
@@ -122,7 +122,7 @@ func (q *Queries) GetUserByUsername(ctx context.Context, username string) (User,
 }
 
 const getUserByUsernameForUpdate = `-- name: GetUserByUsernameForUpdate :one
-SELECT id, username, full_name, sex, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at FROM users
+SELECT id, username, full_name, gender, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at FROM users
 WHERE username = $1 LIMIT 1
 FOR NO KEY UPDATE
 `
@@ -134,7 +134,7 @@ func (q *Queries) GetUserByUsernameForUpdate(ctx context.Context, username strin
 		&i.ID,
 		&i.Username,
 		&i.FullName,
-		&i.Sex,
+		&i.Gender,
 		&i.Age,
 		&i.Email,
 		&i.Phone,
@@ -151,17 +151,17 @@ const updateUser = `-- name: UpdateUser :one
 UPDATE users
 SET phone = $2,
     full_name = $3,
-    sex = $4,
+    gender = $4,
     email = $5
 WHERE id = $1
-RETURNING id, username, full_name, sex, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at
+RETURNING id, username, full_name, gender, age, email, phone, hashed_password, avatar, status, password_changed_at, created_at
 `
 
 type UpdateUserParams struct {
 	ID       int64  `json:"id"`
 	Phone    string `json:"phone"`
 	FullName string `json:"full_name"`
-	Sex      string `json:"sex"`
+	Gender   string `json:"gender"`
 	Email    string `json:"email"`
 }
 
@@ -170,7 +170,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		arg.ID,
 		arg.Phone,
 		arg.FullName,
-		arg.Sex,
+		arg.Gender,
 		arg.Email,
 	)
 	var i User
@@ -178,7 +178,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.ID,
 		&i.Username,
 		&i.FullName,
-		&i.Sex,
+		&i.Gender,
 		&i.Age,
 		&i.Email,
 		&i.Phone,

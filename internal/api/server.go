@@ -31,8 +31,8 @@ func NewServer(store db.Store, tokenMaker token.Maker, tokenParams TokenParams) 
 		if err := v.RegisterValidation("phone", validPhone); err != nil {
 			return nil, fmt.Errorf("failed to register phone validation: %w", err)
 		}
-		if err := v.RegisterValidation("sex", validSex); err != nil {
-			return nil, fmt.Errorf("failed to register sex validation: %w", err)
+		if err := v.RegisterValidation("gender", validGender); err != nil {
+			return nil, fmt.Errorf("failed to register gender validation: %w", err)
 		}
 	}
 
