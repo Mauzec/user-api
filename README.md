@@ -19,13 +19,13 @@ go run ./cmd/server
 ```
 По умолчанию конфиг берётся из `config/app.env`. Порт: `0.0.0.0:8080`.
 
-## Структура проекта
+## Что, где?
 - `db/` — логика Postgres: миграции, SQL-запросы (`db/query`), сгенерированный код sqlc (`db/sqlc`).
 - `internal/api/` — логика API: хендлеры, роутинг, middleware, валидация.
 
 ## Запуск в Docker Compose
 
-Всё в контейнерах: Postgres, миграции и API.
+Всё будет в докере.
 ```sh
 docker compose up --build
 ```
