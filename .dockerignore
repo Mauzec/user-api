@@ -1,0 +1,14 @@
+# build artifacts
+server
+bin/
+*.out
+*.log
+
+# vcs
+.git
+.gitignore
+
+# node, editor, OS junk
+node_modules/
+.vscode/
+.DS_Store

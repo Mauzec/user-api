@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: userapi-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+      POSTGRES_DB: ${DB_NAME:-user_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    image: migrate/migrate:4
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./db/migrate:/migrations
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: >
+      "migrate -path /migrations -database postgresql://${POSTGRES_USER:-root}:${POSTGRES_PASSWORD:-secret}@db:5432/${DB_NAME:-user_db}?sslmode=disable -verbose up"
+
+  api:
+    build: .
+    container_name: userapi-server
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DB_SOURCE: postgresql://${POSTGRES_USER:-root}:${POSTGRES_PASSWORD:-secret}@db:5432/${DB_NAME:-user_db}?sslmode=disable
+
+      SERVER_ADDR: 0.0.0.0:8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config:/app/config:ro
+
+volumes:
+  pgdata: {}

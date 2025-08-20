@@ -1,0 +1,3 @@
+# TLS certs/keys (local only)
+config/certs/*.key
+config/certs/*.crt
