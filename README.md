@@ -1,83 +1,38 @@
 # user-api
 
-Небольшой api для управления пользователями (sqlc, pgxpool, Paseto токены).
+A small API for managing users.
 
-## Быстрый старт
+## Quick Start
 
-Требования: Docker (для Postgres), установленный `migrate` CLI, Go 1.24+.
+Requirements: Docker (for Postgres), `migrate`, Go 1.24+.
 
-1) Поднять Postgres в Docker и создать БД:
+Run:
+```sh
+docker compose up --build
+```
+
+Stop and remove data:
+```sh
+docker compose down -v
+```
+
+## Long Start
+
+1) Start postgres in Docker and create the db:
 ```sh
 go mod tidy
 make postgres
 make createdb
 make migrateup
 ```
-2) Запустить API:
+2) Run API server:
 ```sh
 go run ./cmd/server
 ```
-По умолчанию конфиг берётся из `config/app.env`. Сервер-api хостится на `0.0.0.0:8080`.
-
-## Что, где?
-- `db/` — логика Postgres: миграции, SQL-запросы (`db/query`), сгенерированный код sqlc (`db/sqlc`).
-- `internal/api/` — логика API: хендлеры, роутинг, middleware, валидация.
-
-## Запуск в Docker Compose
-
-Всё будет в докере.
-```sh
-docker compose up --build
-```
-
-Остановка и очистка данных:
-```sh
-docker compose down -v
-```
+By default the config is taken from `config/app.env`. The API server listens on `0.0.0.0:8080`.
 
 ## API
-- POST `/users` — создание пользователя
-- POST `/users/login` — логин (ответ содержит `token`)
-- GET `/users/:username` — информация о пользователе (Authorization: `Bearer <token>`)
-- POST `/users/:username` — обновление пользователя (можно обновлять только себя) (Authorization: `Bearer <token>`)
-
-### Примеры запросов (body)
-
-Create user:
-```json
-{
-	"username": "someuser",
-	"fullname": "Some Name",
-	"gender": "M",
-	"age": 25,
-	"email": "example@example.com",
-	"phone": "+1234567890",
-	"password": "secret"
-}
-```
-
-Login:
-```json
-{
-	"username": "someuser",
-	"password": "secret"
-}
-```
-
-Update (любой поднабор полей):
-```json
-{
-	"fullname": "John Updated",
-	"email": "john2@example.com",
-	"phone": "+1234567899",
-	"gender": "M"
-}
-```
-
-
-## HTTPS (опционально)
-1) Сгенерировать самоподписанные сертификаты:
-```sh
-make gen-cert
-```
-2) В `config/app.env` расскоментировать TLS_CERT_FILE и TLS_KEY_FILE:
+- POST `/users` — create a user
+- POST `/users/login` — login (response contains a `token`)
+- GET `/users/:username` — user information (Authorization: `Bearer <token>`)
+- POST `/users/:username` — update user (you can only update yourself) (Authorization: `Bearer <token>`)
